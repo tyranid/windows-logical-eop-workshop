@@ -1,1 +1,0 @@
-# windows-logical-eop-workshop

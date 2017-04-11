@@ -1,0 +1,16 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(4870536E-23FA-4CD5-9637-3F1A1699D3DC),
+	version(1.0),		
+]
+interface RpcServer 
+{	
+	boolean TestLoadLibrary([in] handle_t hBinding, [string] const wchar_t* name);
+	boolean TestLoadLibraryCanonical([in] handle_t hBinding, [string] const wchar_t* name);
+  boolean TestLoadLibraryTocTou([in] handle_t hBinding, [string] const wchar_t* lib_path);
+  boolean TestLoadLibraryTocTouHardened(handle_t hBinding, [string] const wchar_t* lib_path);
+  int TestDuplicateHandle([in] handle_t hBinding, [in] int handle);
+  boolean TestCreateProcess([in] handle_t hBinding);
+}
