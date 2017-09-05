@@ -78,7 +78,10 @@ void RunMenu(const char* name, const std::vector<MenuOption>& menu, void* contex
     cout << endl;
     if (run_op > 0 && run_op <= static_cast<int>(menu.size()))
     {
-      menu[run_op - 1].RunOp(context);
+      if (menu[run_op - 1].RunOp)
+      {
+        menu[run_op - 1].RunOp(context);
+      }
     }
   }
 }

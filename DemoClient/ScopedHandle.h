@@ -14,27 +14,46 @@
 //    You should have received a copy of the GNU General Public License
 //    along with windows-logical-eop-workshop.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "stdafx.h"
+#pragma once
 
-void RunRpcClient(void*);
-void RunDriverTests(void*);
-void RunDemos(void*);
+#include <Windows.h>
 
-int wmain(int argc, WCHAR* argv[])
+class ScopedHandle
 {
-  void* unk = nullptr;
-  
-  if (argc > 1) {
-    std::vector<MenuOption> menu = {
-      { "Demos" , RunDemos },
-      { "RPC Client Tests", RunRpcClient },
-      { "Driver Tests", RunDriverTests }
-    };
-    RunMenu("Specify Test Category", menu, unk);
-  }
-  else {
-    RunDemos(nullptr);
+  HANDLE _h;
+public:
+  ScopedHandle(HANDLE h)
+  {
+    _h = h;
   }
 
-  return 0;
-}
+  ScopedHandle(const ScopedHandle&) = delete;
+
+  ScopedHandle() : _h(nullptr)
+  {
+  }
+
+  ~ScopedHandle()
+  {
+    if (!IsInvalid())
+    {
+      CloseHandle(_h);
+      _h = nullptr;
+    }
+  }
+
+  bool IsInvalid()
+  {
+    return _h == nullptr || _h == INVALID_HANDLE_VALUE;
+  }
+
+  HANDLE Get()
+  {
+    return _h;
+  }
+
+  HANDLE* Ptr()
+  {
+    return &_h;
+  }
+};

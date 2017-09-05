@@ -17,48 +17,9 @@
 #include "stdafx.h"
 #include <iostream>
 #include <device_control_ioctl.h>
+#include "ScopedHandle.h"
 
 using namespace std;
-
-class ScopedHandle
-{
-  HANDLE _h;
-public:
-  ScopedHandle(HANDLE h)
-  {
-    _h = h;
-  }
-
-  ScopedHandle(const ScopedHandle&) = delete;
-
-  ScopedHandle() : _h(nullptr)
-  {
-  }
-
-  ~ScopedHandle()
-  {
-    if (!IsInvalid())
-    {
-      CloseHandle(_h);
-      _h = nullptr;
-    }
-  }
-
-  bool IsInvalid()
-  {
-    return _h == nullptr || _h == INVALID_HANDLE_VALUE;
-  }
-
-  HANDLE Get()
-  {
-    return _h;
-  }
-
-  HANDLE* Ptr()
-  {
-    return &_h;
-  }
-};
 
 void RunTestGeneral(HANDLE handle, ControlCode code)
 {
